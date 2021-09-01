@@ -16,24 +16,26 @@ import Svg, {
     Circle,
     Text
 } from "react-native-svg";
+import PropTypes from 'prop-types';
+import withinTen from "./validations";
 
 const parseValToAngle = (val, max) => Math.round(val * 360 / max);
 const parseAngleToVal = (angle, max) => Math.round(angle * max / 360);
 const AnimatedText = Animated.createAnimatedComponent(Text);
 const AnimatedPath = Animated.createAnimatedComponent(Path);
 
-const App = ({
-    blobRadius = 15,
-    radius = 100,
-    blobWidth = 5,
-    color = "cyan",
-    opacity = 0.2,
-    strokeWidth = 7,
-    initialValue = 0,
-    maximumValue = 25,
-    duration = 2000,
-    geometricXCenter = Dimensions.get("window").width / 2,
-    geometricYCenter = Dimensions.get("window").height / 2
+const CircularAdjustableSlider = ({
+    blobRadius,
+    radius,
+    blobWidth,
+    color,
+    opacity,
+    strokeWidth,
+    initialValue,
+    maximumValue,
+    duration,
+    geometricXCenter,
+    geometricYCenter
 }) => {
 
     const polarToCartesian = useCallback(
@@ -150,4 +152,33 @@ const App = ({
         </Svg>
     );
 };
-export default memo(App);
+
+CircularAdjustableSlider.propTypes = {
+    blobRadius: PropTypes.number,
+    radius: PropTypes.number,
+    blobWidth: PropTypes.number,
+    color: PropTypes.string,
+    opacity: withinTen,
+    strokeWidth: PropTypes.number,
+    initialValue: PropTypes.number,
+    maximumValue: PropTypes.number,
+    duration: PropTypes.number,
+    geometricXCenter: PropTypes.number,
+    geometricYCenter: PropTypes.number
+};
+
+CircularAdjustableSlider.defaultProps = {
+    blobRadius: 15,
+    radius: 100,
+    blobWidth: 5,
+    color: "cyan",
+    opacity: 0.2,
+    strokeWidth: 7,
+    initialValue: 0,
+    maximumValue: 25,
+    duration: 2000,
+    geometricXCenter: Dimensions.get("window").width / 2,
+    geometricYCenter: Dimensions.get("window").height / 2
+};
+
+export default memo(CircularAdjustableSlider);
